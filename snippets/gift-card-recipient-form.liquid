@@ -18,33 +18,14 @@
     data-product-variant-id="{{ product.selected_or_first_available_variant.id }}"
   >
     <input
-      id="Recipient-Checkbox-{{ section.id }}"
+      id="Recipient-checkbox-{{ section.id }}"
       type="checkbox"
       name="{{ gift_card_recipient_control_flag }}"
       disabled
-      unchecked
     >
-    <label class="recipient-checkbox" for="Recipient-Checkbox-{{ section.id }}">
-      <svg
-        width="1.6rem"
-        height="1.6rem"
-        viewBox="0 0 16 16"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <rect width="16" height="16" stroke="currentColor" fill="none" stroke-width="1"></rect>
-      </svg>
-      <svg
-        aria-hidden="true"
-        class="icon icon-checkmark"
-        width="1.1rem"
-        height="0.7rem"
-        viewBox="0 0 11 7"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M1.5 3.5L2.83333 4.75L4.16667 6L9.5 1" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
+    <label class="recipient-checkbox" for="Recipient-checkbox-{{ section.id }}">
+      {{ 'square.svg' | inline_asset_content }}
+      {{- 'icon-checkmark.svg' | inline_asset_content -}}
       <span>{{ 'recipient.form.checkbox' | t }}</span>
     </label>
     <div
@@ -55,7 +36,7 @@
       {% endunless %}
     >
       <h2 class="form__message" tabindex="-1" autofocus>
-        {% render 'icon-error' %}
+        {{- 'icon-error.svg' | inline_asset_content -}}
         <span class="error-message">{{ 'templates.contact.form.error_heading' | t }}</span>
       </h2>
 
@@ -67,7 +48,6 @@
                 {{ form.errors.messages[field] }}
               {%- else -%}
                 <a href="#Recipient-{{ field }}-{{ section.id }}">
-                  {{ form.errors.translated_fields[field] | capitalize }}
                   {{ form.errors.messages[field] }}
                 </a>
               {%- endif -%}
@@ -76,6 +56,11 @@
         {%- endif -%}
       </ul>
     </div>
+    <p
+      id="Recipient-fields-live-region-{{ section.id }}"
+      class="visually-hidden"
+      role="status"
+    ></p>
     <div class="recipient-fields">
       <hr>
       <div class="recipient-fields__field">
@@ -94,7 +79,9 @@
           >
           <label class="field__label" for="Recipient-email-{{ section.id }}">
             <span class="recipient-email-label required">{{ 'recipient.form.email_label' | t }}</span>
-            <span class="recipient-email-label optional">{{ 'recipient.form.email_label_optional' | t }}</span>
+            <span class="recipient-email-label optional">
+              {{- 'recipient.form.email_label_optional_for_no_js_behavior' | t -}}
+            </span>
           </label>
         </div>
 
@@ -102,10 +89,9 @@
           id="RecipientForm-email-error-{{ section.id }}"
           class="form__message{% unless form.errors contains 'email' %} hidden{% endunless %}"
         >
-          {% render 'icon-error' %}
+          {{- 'icon-error.svg' | inline_asset_content -}}
           <span class="error-message">
             {%- if form.errors contains 'email' -%}
-              {{ form.errors.translated_fields.email | capitalize }}
               {{ form.errors.messages.email }}.
             {%- endif -%}
           </span>
@@ -136,10 +122,9 @@
           id="RecipientForm-name-error-{{ section.id }}"
           class="form__message{% unless form.errors contains 'name' %} hidden{% endunless %}"
         >
-          {% render 'icon-error' %}
+          {{- 'icon-error.svg' | inline_asset_content -}}
           <span class="error-message">
             {%- if form.errors contains 'name' -%}
-              {{ form.errors.translated_fields.name | capitalize }}
               {{ form.errors.messages.name }}.
             {%- endif -%}
           </span>
@@ -177,11 +162,44 @@
           id="RecipientForm-message-error-{{ section.id }}"
           class="form__message{% unless form.errors contains 'message' %} hidden{% endunless %}"
         >
-          {% render 'icon-error' %}
+          {{- 'icon-error.svg' | inline_asset_content -}}
           <span class="error-message">
             {%- if form.errors contains 'message' -%}
-              {{ form.errors.translated_fields.message | capitalize }}
               {{ form.errors.messages.message }}.
+            {%- endif -%}
+          </span>
+        </div>
+      </div>
+
+      <div class="recipient-fields__field">
+        <div class="field">
+          <input
+            class="field__input text-body"
+            autocomplete="send_on"
+            type="date"
+            id="Recipient-send-on-{{ section.id }}"
+            name="properties[Send on]"
+            placeholder="{{ 'recipient.form.send_on' | t }}"
+            pattern="\d{4}-\d{2}-\d{2}"
+            value="{{ form.send_on }}"
+            {% if form.errors contains 'send_on' %}
+              aria-invalid="true"
+              aria-describedby="RecipientForm-send_on-error-{{ section.id }}"
+            {% endif %}
+          >
+          <label class="form__label field__label" for="Recipient-send-on-{{ section.id }}">
+            {{ 'recipient.form.send_on_label' | t }}
+          </label>
+        </div>
+
+        <div
+          id="RecipientForm-send_on-error-{{ section.id }}"
+          class="form__message{% unless form.errors contains 'send_on' %} hidden{% endunless %}"
+        >
+          {{- 'icon-error.svg' | inline_asset_content -}}
+          <span class="error-message">
+            {%- if form.errors contains 'send_on' -%}
+              {{ form.errors.messages.send_on }}.
             {%- endif -%}
           </span>
         </div>
@@ -191,7 +209,14 @@
       type="hidden"
       name="{{ gift_card_recipient_control_flag }}"
       value="if_present"
-      id="Recipient-Control-{{ section.id }}"
+      id="Recipient-control-{{ section.id }}"
+    >
+    <input
+      type="hidden"
+      name="properties[__shopify_offset]"
+      value=""
+      id="Recipient-timezone-offset-{{ section.id }}"
+      disabled
     >
   </recipient-form>
 </div>

@@ -1,9 +1,9 @@
 function hideProductModal() {
   const productModal = document.querySelectorAll('product-modal[open]');
-  productModal && productModal.forEach(modal => modal.hide());
+  productModal && productModal.forEach((modal) => modal.hide());
 }
 
-document.addEventListener('shopify:block:select', function(event) {
+document.addEventListener('shopify:block:select', function (event) {
   hideProductModal();
   const blockSelectedIsSlide = event.target.classList.contains('slideshow__slide');
   if (!blockSelectedIsSlide) return;
@@ -11,14 +11,14 @@ document.addEventListener('shopify:block:select', function(event) {
   const parentSlideshowComponent = event.target.closest('slideshow-component');
   parentSlideshowComponent.pause();
 
-  setTimeout(function() {
+  setTimeout(function () {
     parentSlideshowComponent.slider.scrollTo({
-      left: event.target.offsetLeft
+      left: event.target.offsetLeft,
     });
   }, 200);
 });
 
-document.addEventListener('shopify:block:deselect', function(event) {
+document.addEventListener('shopify:block:deselect', function (event) {
   const blockDeselectedIsSlide = event.target.classList.contains('slideshow__slide');
   if (!blockDeselectedIsSlide) return;
   const parentSlideshowComponent = event.target.closest('slideshow-component');
@@ -34,6 +34,13 @@ document.addEventListener('shopify:section:load', () => {
     newScriptTag.src = zoomOnHoverScript.src;
     zoomOnHoverScript.parentNode.replaceChild(newScriptTag, zoomOnHoverScript);
   }
+});
+
+document.addEventListener('shopify:section:unload', (event) => {
+  document.querySelectorAll(`[data-section="${event.detail.sectionId}"]`).forEach((element) => {
+    element.remove();
+    document.body.classList.remove('overflow-hidden');
+  });
 });
 
 document.addEventListener('shopify:section:reorder', () => hideProductModal());

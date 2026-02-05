@@ -16,17 +16,17 @@
       "login_form_password_placeholder": "Din adgangskode",
       "login_form_error": "Forkert adgangskode!",
       "login_form_submit": "Få adgang",
-      "admin_link_html": "Er du butiksejeren? <a href=\"\/admin\" class=\"link underlined-link\">Log ind her<\/a>",
+      "admin_link_html": "Er du butiksejeren? <a href=\"/admin\" class=\"link underlined-link\">Log ind her</a>",
       "powered_by_shopify_html": "Denne butik vil blive drevet af {{ shopify }}"
     },
     "social": {
       "alt_text": {
         "share_on_facebook": "Del på Facebook",
-        "share_on_twitter": "Tweet på Twitter",
+        "share_on_twitter": "Del på X",
         "share_on_pinterest": "Pin på Pinterest"
       },
       "links": {
-        "twitter": "Twitter",
+        "twitter": "X (Twitter)",
         "facebook": "Facebook",
         "pinterest": "Pinterest",
         "instagram": "Instagram",
@@ -118,7 +118,6 @@
       "add_to_cart": "Læg i indkøbskurv",
       "description": "Beskrivelse",
       "on_sale": "Udsalg",
-      "product_variants": "Produktvarianter",
       "quantity": {
         "label": "Antal",
         "input_label": "Antal for {{ product }}",
@@ -127,7 +126,11 @@
         "minimum_of": "Minimum på {{ quantity }}",
         "maximum_of": "Maksimum på {{ quantity }}",
         "multiples_of": "Intervaller på {{ quantity }}",
-        "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}<\/span> i indkøbskurven"
+        "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span> i indkøbskurven",
+        "note": "Se mængderegler",
+        "min_of": "Min. {{ quantity }}",
+        "max_of": "Maks. {{ quantity }}",
+        "in_cart_aria_label": "Antal ({{ quantity }} i indkøbskurv)"
       },
       "price": {
         "from_price_html": "Fra {{ price }}",
@@ -146,8 +149,8 @@
         "view_store_info": "Se butiksoplysninger",
         "check_other_stores": "Kontrollér tilgængelighed i andre butikker",
         "pick_up_available": "Afhentning er tilgængelig",
-        "pick_up_available_at_html": "Afhentning er tilgængelig på <span class=\"color-foreground\">{{ location_name }}<\/span>",
-        "pick_up_unavailable_at_html": "Afhentning er ikke tilgængelig på <span class=\"color-foreground\">{{ location_name }}<\/span> i øjeblikket",
+        "pick_up_available_at_html": "Afhentning er tilgængelig på <span class=\"color-foreground\">{{ location_name }}</span>",
+        "pick_up_unavailable_at_html": "Afhentning er ikke tilgængelig på <span class=\"color-foreground\">{{ location_name }}</span> i øjeblikket",
         "unavailable": "Tilgængelighed for afhentning kunne ikke indlæses",
         "refresh": "Opdater"
       },
@@ -161,9 +164,9 @@
         "load_video": "Afspil videoen {{ index }} i gallerivisning",
         "image_available": "Billedet {{ index }} er nu tilgængeligt i gallerivisning"
       },
+      "nested_label": "{{ title }} for {{ parent_title }}",
       "view_full_details": "Se komplette oplysninger",
-      "include_taxes": "Inklusive skat.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">Levering<\/a> beregnes ved betaling.",
+      "shipping_policy_html": "<a href=\"{{ link }}\">Levering</a> beregnes ved betaling.",
       "choose_options": "Vælg muligheder",
       "choose_product_options": "Vælg muligheder for {{ product_name }}",
       "value_unavailable": "{{ option_value }} - Ikke tilgængelig",
@@ -174,7 +177,18 @@
       "inventory_low_stock_show_count": "Lav lagerbeholdning: {{ quantity }} tilbage",
       "inventory_out_of_stock": "Ikke på lager",
       "inventory_out_of_stock_continue_selling": "På lager",
-      "sku": "SKU"
+      "sku": "SKU",
+      "volume_pricing": {
+        "title": "Mængderabat",
+        "note": "Mængderabat tilgængelig",
+        "minimum": "Mere end {{ quantity }}",
+        "price_range": "{{ minimum }} – {{ maximum }}",
+        "price_at_each_html": "til {{ price }} pr. stk."
+      },
+      "product_variants": "Produktvarianter",
+      "taxes_included": "Inklusive skatter.",
+      "duties_included": "Inklusive told.",
+      "duties_and_taxes_included": "Inklusive told og skatter."
     },
     "modal": {
       "label": "Mediegalleri"
@@ -207,7 +221,8 @@
       "clear_filter": "Fjern filter",
       "filter_selected_accessibility": "{{ type }} ({{ count }} filtre er valgt)",
       "show_more": "Vis mere",
-      "show_less": "Vis mindre"
+      "show_less": "Vis mindre",
+      "filter_and_operator_subtitle": "Match alle"
     }
   },
   "templates": {
@@ -273,17 +288,11 @@
       "title": "Din indkøbskurv",
       "caption": "Varer i indkøbskurv",
       "remove_title": "Fjern {{ title }}",
-      "subtotal": "Subtotal",
-      "new_subtotal": "Ny subtotal",
       "note": "Særlige instruktioner til ordre",
       "checkout": "Gå til betaling",
       "empty": "Din indkøbskurv er tom",
       "cart_error": "Der opstod en fejl under opdatering af din indkøbskurv. Prøv igen.",
       "cart_quantity_error_html": "Du kan kun lægge {{ quantity }} af denne vare i indkøbskurven.",
-      "taxes_and_shipping_policy_at_checkout_html": "Afgifter og <a href=\"{{ link }}\">levering<\/a> beregnes ved betaling",
-      "taxes_included_but_shipping_at_checkout": "Inklusive afgifter. Levering beregnes ved betaling",
-      "taxes_included_and_shipping_policy_html": "Inklusive afgifter. <a href=\"{{ link }}\">Levering<\/a> beregnes ved betaling.",
-      "taxes_and_shipping_at_checkout": "Afgifter og levering beregnes ved betaling",
       "headings": {
         "product": "Produkt",
         "price": "Pris",
@@ -294,8 +303,18 @@
       "update": "Opdater",
       "login": {
         "title": "Har du en konto?",
-        "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Log ind<\/a> for at betale hurtigere."
-      }
+        "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Log ind</a> for at betale hurtigere."
+      },
+      "estimated_total": "Estimeret totalbeløb",
+      "new_estimated_total": "Ny estimeret totalbeløb",
+      "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Inklusive told og skatter. Rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
+      "duties_and_taxes_included_shipping_at_checkout_without_policy": "Inklusive told og skatter. Rabatter og levering beregnes ved betaling.",
+      "taxes_included_shipping_at_checkout_with_policy_html": "Inklusive skatter. Rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
+      "taxes_included_shipping_at_checkout_without_policy": "Inklusive skatter. Rabatter og levering beregnes ved betaling.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Inklusive told. Skatter, rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Inklusive told. Skatter, rabatter og levering beregnes ved betaling.",
+      "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Skatter, rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
+      "taxes_at_checkout_shipping_at_checkout_without_policy": "Skatter, rabatter og levering beregnes ved betaling."
     },
     "footer": {
       "payment": "Betalingsmetoder"
@@ -315,7 +334,7 @@
     "collection_template": {
       "title": "Kollektion",
       "empty": "Der blev ikke fundet nogen produkter",
-      "use_fewer_filters_html": "Brug færre filtre, eller <a class=\"{{ class }}\" href=\"{{ link }}\">fjern alle<\/a>"
+      "use_fewer_filters_html": "Brug færre filtre, eller <a class=\"{{ class }}\" href=\"{{ link }}\">fjern alle</a>"
     },
     "video": {
       "load_video": "Indlæs video: {{ description }}"
@@ -331,13 +350,48 @@
     },
     "page": {
       "title": "Sidetitel"
+    },
+    "announcements": {
+      "previous_announcement": "Forrige meddelelse",
+      "next_announcement": "Næste meddelelse",
+      "carousel": "Karrusel",
+      "announcement": "Meddelelse",
+      "announcement_bar": "Meddelelseslinje"
+    },
+    "quick_order_list": {
+      "product_total": "Subtotal for produkt",
+      "view_cart": "Se indkøbskurv",
+      "each": "{{ money }}/stk.",
+      "product": "Produkt",
+      "variant": "Variant",
+      "variant_total": "Variant i alt",
+      "items_added": {
+        "one": "{{ quantity }} vare tilføjet",
+        "other": "{{ quantity }} varer tilføjet"
+      },
+      "items_removed": {
+        "one": "{{ quantity }} vare fjernet",
+        "other": "{{ quantity }} varer fjernet"
+      },
+      "product_variants": "Produktvarianter",
+      "total_items": "Varer i alt",
+      "remove_all_items_confirmation": "Vil du fjerne alle {{ quantity }} varer fra din indkøbskurv?",
+      "remove_all": "Fjern alle",
+      "cancel": "Annuller",
+      "remove_all_single_item_confirmation": "Vil du fjerne 1 vare fra din indkøbskurv?",
+      "min_error": "Denne vare har en minimumsgrænse på {{ min }}",
+      "max_error": "Denne vare har en maksimumgrænse på {{ max }}",
+      "step_error": "Du kan kun tilføje denne vare i intervaller på {{ step }}"
     }
   },
   "localization": {
-    "country_label": "Land\/område",
+    "country_label": "Land/område",
     "language_label": "Sprog",
     "update_language": "Opdater sprog",
-    "update_country": "Opdater land\/område"
+    "update_country": "Opdater land/område",
+    "search": "Søg",
+    "popular_countries_regions": "Populære lande/områder",
+    "country_results_count": "{{ count }} lande/områder er fundet"
   },
   "customer": {
     "account": {
@@ -366,7 +420,7 @@
       "address1": "Adresse 1",
       "address2": "Adresse 2",
       "city": "By",
-      "country": "Land\/område",
+      "country": "Land/område",
       "province": "Provins",
       "zip": "Postnummer",
       "phone": "Telefon",
@@ -390,7 +444,8 @@
       "password": "Adgangskode",
       "title": "Login",
       "sign_in": "Log ind",
-      "submit": "Indsend"
+      "submit": "Indsend",
+      "alternate_provider_separator": "eller"
     },
     "orders": {
       "title": "Ordrehistorik",
@@ -468,13 +523,17 @@
     "form": {
       "checkbox": "Jeg vil sende som en gave",
       "email_label": "Modtagers mailadresse",
-      "email_label_optional": "Modtagerens mailadresse (valgfrit)",
       "email": "Mail",
       "name_label": "Modtagerens navn (valgfrit)",
       "name": "Navn",
       "message_label": "Besked (valgfrit)",
       "message": "Besked",
-      "max_characters": "Højst {{ max_chars }} tegn"
+      "max_characters": "Højst {{ max_chars }} tegn",
+      "email_label_optional_for_no_js_behavior": "Modtagerens mailadresse (valgfrit)",
+      "send_on": "ÅÅÅÅ-MM-DD",
+      "send_on_label": "Send (valgfrit)",
+      "expanded": "Formularen til modtager af gavekort er vist",
+      "collapsed": "Formularen til modtager af gavekort er skjult"
     }
   }
 }

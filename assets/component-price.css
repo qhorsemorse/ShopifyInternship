@@ -64,8 +64,13 @@
 }
 
 .price--sold-out .price__badge-sold-out,
-.price--on-sale .price__badge-sale {
+.price--on-sale .price__badge-sale,
+.volume-pricing--sale-badge .price__badge-sale {
   display: inline-block;
+}
+
+.volume-pricing--sale-badge .price__badge-sale {
+  margin-left: 0.5rem;
 }
 
 .price--on-sale .price__sale {
@@ -91,6 +96,5 @@
   letter-spacing: 0.04rem;
   line-height: calc(1 + 0.2 / var(--font-body-scale));
   margin-top: 0.2rem;
-  text-transform: uppercase;
   color: rgba(var(--color-foreground), 0.7);
 }
