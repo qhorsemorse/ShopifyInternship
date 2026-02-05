@@ -843,6 +843,116 @@
         "name": "Featured collection"
       }
     },
+    "best-seller": {
+      "name": "Best sellers",
+      "settings": {
+        "header_text": {
+        "content": "Text"
+        },
+        "title": {
+          "label": "Heading",
+          "default": "Best sellers"
+        },
+        "description": {
+          "label": "Description"
+        },
+        "show_description": {
+          "label": "Show collection description from admin"
+        },
+        "description_style": {
+          "label": "Description style",
+          "options__1": {
+            "label": "Body"
+          },
+          "options__2": {
+            "label": "Subtitle"
+          },
+          "options__3": {
+            "label": "Uppercase"
+          }
+        },
+        "header_collection": {
+          "content": "Collection layout"
+        },
+        "header_mobile": {
+        "content": "Mobile layout"
+        },                 
+        "collection": {
+          "label": "Collection"
+        },
+        "products_to_show": {
+          "label": "Product count"
+        },
+        "columns_desktop": {
+          "label": "Columns"
+        },
+        "show_view_all": {
+          "label": "\"View all\" button",
+          "info": "Visible if collection has more products than shown"
+        },
+        "view_all_style": {
+          "label": "\"View all\" style",
+          "options__1": {
+            "label": "Link"
+          },
+          "options__2": {
+            "label": "Outline button"
+          },
+          "options__3": {
+            "label": "Solid button"
+          }
+        },
+        "enable_desktop_slider": {
+          "label": "Carousel"
+        },
+        "full_width": {
+          "label": "Full width products"
+        },
+        "header": {
+          "content": "Product card"
+        },
+        "image_ratio": {
+          "label": "Image ratio",
+          "options__1": {
+            "label": "Adapt to image"
+          },
+          "options__2": {
+            "label": "Portrait"
+          },
+          "options__3": {
+            "label": "Square"
+          }
+        },
+        "show_secondary_image": {
+          "label": "Show second image on hover"
+        },
+        "show_vendor": {
+          "label": "Vendor"
+        },
+        "show_rating": {
+          "label": "Product rating",
+          "info": "An app is required for ratings. [Learn more](https://help.shopify.com/manual/online-store/themes/theme-structure/theme-features#featured-collection-show-product-rating)"
+        },
+        "enable_quick_buy": {
+          "label": "Quick add"
+        },
+        "columns_mobile": {
+          "label": "Columns",
+          "options__1": {
+            "label": "1"
+          },
+          "options__2": {
+            "label": "2"
+          }
+        },
+        "swipe_on_mobile": {
+          "label": "Carousel"
+        }
+      },
+      "presets": {
+        "name": "Best sellers"
+      }
+    },
     "featured-product": {
       "name": "Featured product",
       "blocks": {
