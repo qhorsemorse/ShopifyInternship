@@ -49,12 +49,12 @@
         "show_text_below": false
       }
     },
-      "best-sellers": {
+    "best-sellers": {
       "type": "best-seller",
       "settings": {
-        "collection": "all",
+        "collection": "best-seller",
         "products_to_show": 3,
-        "title": "Featured products",
+        "title": "Best seller",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
@@ -62,7 +62,7 @@
         "columns_desktop": 4,
         "enable_desktop_slider": false,
         "full_width": false,
-        "show_view_all": true,
+        "show_view_all": false,
         "view_all_style": "solid",
         "color_scheme": "scheme-1",
         "image_ratio": "adapt",
