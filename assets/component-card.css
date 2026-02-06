@@ -285,9 +285,77 @@
   justify-self: flex-end;
 }
 
+/* CODE CHANGE START: New metafield badge */
+.badge--top-left {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+/* CODE CHANGE END: New metafield badge */
+
 .card:not(.card--horizontal) > .card__content > .card__badge {
   margin: 1.3rem;
 }
+
+/* CODE CHANGE START: Card color swatches */
+.card__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  position: relative;
+  z-index: 3;
+}
+
+.card__swatch {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(18, 18, 18, 0.2);
+  background: var(--swatch-color, #e6e6e6);
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  z-index: 3;
+}
+
+.card__swatch:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.card__swatch:hover {
+  border-color: rgba(18, 18, 18, 0.6);
+}
+
+.card__swatch.is-active {
+  border-color: rgba(18, 18, 18, 0.6);
+}
+
+.card-wrapper.card--swatch-active .media--hover-effect img + img {
+  opacity: 0;
+}
+
+.card-wrapper.card--swatch-active .media--hover-effect img {
+  transform: none;
+}
+/* CODE CHANGE END: Card color swatches */
+
+/* CODE CHANGE START: New badge shape + typography */
+.badge--shape-rect {
+  border-radius: 0;
+}
+
+.badge--shape-pill {
+  border-radius: 999px;
+}
+
+.badge--new {
+  font-size: var(--new-badge-font-size);
+  font-weight: var(--new-badge-font-weight);
+  padding: var(--new-badge-padding-y) var(--new-badge-padding-x);
+}
+/* CODE CHANGE END: New badge shape + typography */
 
 .card__media .media img {
   height: 100%;

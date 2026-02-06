@@ -6,6 +6,64 @@ function getFocusableElements(container) {
   );
 }
 
+// CODE CHANGE START: Card color swatch image swap
+document.addEventListener('click', (event) => {
+  const swatchButton = event.target.closest('.card__swatch');
+  if (!swatchButton) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+  if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+  const imageSrc = swatchButton.dataset.imageSrc;
+  if (!imageSrc) return;
+  const imageSrcset = swatchButton.dataset.imageSrcset;
+  const imageSizes = swatchButton.dataset.imageSizes;
+
+  const card = swatchButton.closest('.card-wrapper');
+  if (!card) return;
+
+  const images = card.querySelectorAll('.card__media .media img');
+  if (!images || images.length === 0) return;
+
+  card.classList.add('card--swatch-active');
+  card.querySelectorAll('.card__swatch.is-active').forEach((btn) => btn.classList.remove('is-active'));
+  swatchButton.classList.add('is-active');
+
+  images.forEach((img) => {
+    img.src = imageSrc;
+    if (imageSrcset) img.srcset = imageSrcset;
+    if (imageSizes) img.sizes = imageSizes;
+  });
+}, true);
+
+document.addEventListener('mouseover', (event) => {
+  const swatchButton = event.target.closest('.card__swatch');
+  if (!swatchButton) return;
+
+  const imageSrc = swatchButton.dataset.imageSrc;
+  if (!imageSrc) return;
+  const imageSrcset = swatchButton.dataset.imageSrcset;
+  const imageSizes = swatchButton.dataset.imageSizes;
+
+  const card = swatchButton.closest('.card-wrapper');
+  if (!card) return;
+
+  const images = card.querySelectorAll('.card__media .media img');
+  if (!images || images.length === 0) return;
+
+  card.classList.add('card--swatch-active');
+  card.querySelectorAll('.card__swatch.is-active').forEach((btn) => btn.classList.remove('is-active'));
+  swatchButton.classList.add('is-active');
+
+  images.forEach((img) => {
+    img.src = imageSrc;
+    if (imageSrcset) img.srcset = imageSrcset;
+    if (imageSizes) img.sizes = imageSizes;
+  });
+});
+// CODE CHANGE END: Card color swatch image swap
+
 class SectionId {
   static #separator = '__';
 

@@ -67,6 +67,17 @@
             "secondary_button_label": "#FFFFFF",
             "shadow": "#121212"
           }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#2F6FDB",
+            "background_gradient": "",
+            "text": "#FFFFFF",
+            "button": "#2F6FDB",
+            "button_label": "#FFFFFF",
+            "secondary_button_label": "#FFFFFF",
+            "shadow": "#121212"
+          }
         }
       },
       "type_header_font": "assistant_n4",
@@ -164,6 +175,12 @@
       "badge_corner_radius": 40,
       "sale_badge_color_scheme": "scheme-4",
       "sold_out_badge_color_scheme": "scheme-3",
+      "metadata_new_badge_color_scheme": "scheme-6",
+      "metadata_new_badge_shape": "rect",
+      "metadata_new_badge_font_size": 14,
+      "metadata_new_badge_padding_x": 8,
+      "metadata_new_badge_padding_y": 3,
+      "metadata_new_badge_font_weight": "700",
       "brand_headline": "",
       "brand_description": "<p></p>",
       "brand_image_width": 100,

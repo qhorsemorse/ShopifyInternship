@@ -1,0 +1,10 @@
+{% comment %} CODE CHANGE START: New metafield badge snippet {% endcomment %}
+{%- if card_product.metafields.custom.new.value -%}
+  <span
+    id="NewBadge-{{ section_id }}-{{ card_product.id }}{% if suffix %}-{{ suffix }}{% endif %}"
+    class="badge badge--top-left badge--new badge--shape-{{ settings.metadata_new_badge_shape }} color-{{ settings.metadata_new_badge_color_scheme }}"
+  >
+    NEW
+  </span>
+{%- endif -%}
+{% comment %} CODE CHANGE END: New metafield badge snippet {% endcomment %}

@@ -1263,6 +1263,78 @@
         "id": "sold_out_badge_color_scheme",
         "label": "t:settings_schema.badges.settings.sold_out_badge_color_scheme.label",
         "default": "scheme-3"
+      },
+      {
+        "type": "color_scheme",
+        "id": "metadata_new_badge_color_scheme",
+        "label": "t:settings_schema.badges.settings.metadata_new_badge_color_scheme",
+        "default": "scheme-6"
+      },
+      {
+        "type": "select",
+        "id": "metadata_new_badge_shape",
+        "label": "t:settings_schema.badges.settings.metadata_new_badge_shape.label",
+        "options": [
+          {
+            "value": "rect",
+            "label": "t:settings_schema.badges.settings.metadata_new_badge_shape.options__1.label"
+          },
+          {
+            "value": "pill",
+            "label": "t:settings_schema.badges.settings.metadata_new_badge_shape.options__2.label"
+          }
+        ],
+        "default": "rect"
+      },
+      {
+        "type": "range",
+        "id": "metadata_new_badge_font_size",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.badges.settings.metadata_new_badge_font_size.label",
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "metadata_new_badge_padding_x",
+        "min": 4,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.badges.settings.metadata_new_badge_padding_x.label",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "metadata_new_badge_padding_y",
+        "min": 2,
+        "max": 16,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.badges.settings.metadata_new_badge_padding_y.label",
+        "default": 4
+      },
+      {
+        "type": "select",
+        "id": "metadata_new_badge_font_weight",
+        "label": "t:settings_schema.badges.settings.metadata_new_badge_font_weight.label",
+        "options": [
+          {
+            "value": "600",
+            "label": "t:settings_schema.badges.settings.metadata_new_badge_font_weight.options__1.label"
+          },
+          {
+            "value": "700",
+            "label": "t:settings_schema.badges.settings.metadata_new_badge_font_weight.options__2.label"
+          },
+          {
+            "value": "800",
+            "label": "t:settings_schema.badges.settings.metadata_new_badge_font_weight.options__3.label"
+          }
+        ],
+        "default": "700"
       }
     ]
   },

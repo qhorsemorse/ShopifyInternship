@@ -217,6 +217,39 @@
         },
         "sold_out_badge_color_scheme": {
           "label": "Utsålt färgschema för bricka"
+        },
+        "metadata_new_badge_color_scheme": {
+          "label": "Metadata \"New\" badge color scheme"
+        },
+        "metadata_new_badge_shape": {
+          "label": "Metadata \"New\" badge shape",
+          "options__1": {
+            "label": "Rectangle"
+          },
+          "options__2": {
+            "label": "Pill"
+          }
+        },
+        "metadata_new_badge_font_size": {
+          "label": "Metadata \"New\" badge font size"
+        },
+        "metadata_new_badge_padding_x": {
+          "label": "Metadata \"New\" badge horizontal padding"
+        },
+        "metadata_new_badge_padding_y": {
+          "label": "Metadata \"New\" badge vertical padding"
+        },
+        "metadata_new_badge_font_weight": {
+          "label": "Metadata \"New\" badge font weight",
+          "options__1": {
+            "label": "Semibold"
+          },
+          "options__2": {
+            "label": "Bold"
+          },
+          "options__3": {
+            "label": "Extra bold"
+          }
         }
       }
     },

@@ -9,8 +9,6 @@
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-    {%- else -%}
-      <link rel="icon" type="image/svg+xml" href="{{ 'icon-shopify.svg' | asset_url }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
@@ -161,6 +159,12 @@
         --blog-card-shadow-blur-radius: {{ settings.blog_card_shadow_blur | divided_by: 10.0 }}rem;
 
         --badge-corner-radius: {{ settings.badge_corner_radius | divided_by: 10.0 }}rem;
+        /* CODE CHANGE START: New badge typography vars */
+        --new-badge-font-size: {{ settings.metadata_new_badge_font_size | divided_by: 10.0 }}rem;
+        --new-badge-font-weight: {{ settings.metadata_new_badge_font_weight }};
+        --new-badge-padding-x: {{ settings.metadata_new_badge_padding_x | divided_by: 10.0 }}rem;
+        --new-badge-padding-y: {{ settings.metadata_new_badge_padding_y | divided_by: 10.0 }}rem;
+        /* CODE CHANGE END: New badge typography vars */
 
         --popup-border-width: {{ settings.popup_border_thickness }}px;
         --popup-border-opacity: {{ settings.popup_border_opacity | divided_by: 100.0 }};
