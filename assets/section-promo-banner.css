@@ -1,0 +1,162 @@
+.promo-banner.gradient {
+  background: #0b2a63;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.promo-banner__panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #f4f8ff;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  overflow: visible;
+  padding: 2.4rem 0;
+  position: relative;
+  z-index: 2;
+}
+
+.promo-banner__heading {
+  margin: 0;
+  color: #f4f8ff;
+}
+
+.promo-banner__text {
+  margin-top: 1.2rem;
+  margin-bottom: 1.6rem;
+  color: #f4f8ff;
+}
+
+.promo-banner__text p {
+  margin: 0;
+}
+
+.promo-banner__content,
+.promo-banner__timer {
+  position: relative;
+  z-index: 3;
+}
+
+.promo-banner__timer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.promo-banner__timer-title {
+  margin: 0;
+  color: #f4f8ff;
+  font-size: 1.3rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.promo-banner__countdown {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.promo-banner__countdown-item {
+  min-width: 5.8rem;
+  border: 1px solid rgba(244, 248, 255, 0.45);
+  border-radius: 0.8rem;
+  padding: 0.8rem;
+  text-align: center;
+  background-color: rgba(11, 42, 99, 0.2);
+}
+
+.promo-banner__countdown-value {
+  display: block;
+  color: #f4f8ff;
+  font-size: 2.4rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.promo-banner__countdown-label {
+  display: block;
+  margin-top: 0.4rem;
+  color: #f4f8ff;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.promo-banner__countdown-expired {
+  margin: 0;
+  color: #f4f8ff;
+  opacity: 0.85;
+}
+
+.promo-banner__panel .button {
+  background: transparent;
+  border-color: #f4f8ff;
+  color: #f4f8ff;
+}
+
+.promo-banner__panel .button.button--secondary {
+  background: transparent;
+  border-color: #f4f8ff;
+  color: #f4f8ff;
+}
+
+.promo-banner__panel .button:hover {
+  background: transparent;
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.promo-banner__panel .button.button--secondary:hover {
+  background: transparent;
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.promo-banner__sticker {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.promo-banner__sticker svg,
+.promo-banner__sticker img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+@media screen and (min-width: 990px) {
+  .promo-banner__panel {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3.2rem 0;
+    gap: 3.2rem;
+  }
+
+  .promo-banner__content {
+    flex: 1 1 auto;
+    max-width: 64rem;
+  }
+
+  .promo-banner__timer {
+    flex: 0 0 auto;
+    min-width: 36rem;
+    align-items: flex-end;
+  }
+
+  .promo-banner__timer-title {
+    text-align: right;
+  }
+}

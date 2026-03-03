@@ -616,6 +616,44 @@
         "unit": "px",
         "label": "t:settings_schema.global.settings.blur.label",
         "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Product card reveal button"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_reveal_button_enabled",
+        "default": true,
+        "label": "Enable product card reveal button"
+      },
+      {
+        "type": "text",
+        "id": "card_reveal_button_text",
+        "default": "show now",
+        "label": "Reveal link text"
+      },
+      {
+        "type": "range",
+        "id": "card_reveal_button_size",
+        "min": 36,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "default": 36,
+        "label": "Button size"
+      },
+      {
+        "type": "color",
+        "id": "card_reveal_button_bg_color",
+        "default": "#d6b56a",
+        "label": "Button background color"
+      },
+      {
+        "type": "color",
+        "id": "card_reveal_button_text_color",
+        "default": "#4d2f12",
+        "label": "Button text and dots color"
       }
     ]
   },

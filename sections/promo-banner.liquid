@@ -1,0 +1,376 @@
+{{ 'section-promo-banner.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="PromoBanner-{{ section.id }}"
+  class="promo-banner section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient"
+  style="
+    --promo-sticker-size: {{ section.settings.sticker_size }}px;
+    --promo-sticker-x: {{ section.settings.sticker_horizontal_position }}%;
+    --promo-sticker-y: {{ section.settings.sticker_vertical_position }}%;
+    --promo-sticker-rotation: {{ section.settings.sticker_rotation }}deg;
+    --promo-sticker-opacity: {{ section.settings.sticker_opacity | divided_by: 100.0 }};
+  "
+>
+  {%- if section.settings.enable_sticker -%}
+    {%- assign sticker_svg_filename = section.settings.sticker_svg_asset | strip -%}
+    {%- if sticker_svg_filename == blank and section.settings.sticker_image == blank -%}
+      {%- assign sticker_svg_filename = 'promo-sticker.svg' -%}
+    {%- endif -%}
+    {%- if sticker_svg_filename != blank -%}
+      <div class="promo-banner__sticker" aria-hidden="true">
+        <img
+          src="{{ sticker_svg_filename | asset_url }}"
+          alt=""
+          loading="eager"
+          width="1200"
+          height="1200"
+        >
+      </div>
+    {%- elsif section.settings.sticker_image != blank -%}
+      <div class="promo-banner__sticker" aria-hidden="true">
+        <img
+          src="{{ section.settings.sticker_image | image_url: width: 1200 }}"
+          alt=""
+          loading="eager"
+          width="{{ section.settings.sticker_image.width }}"
+          height="{{ section.settings.sticker_image.height }}"
+        >
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  <div class="page-width">
+    <div class="promo-banner__panel">
+      <div class="promo-banner__content">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="promo-banner__heading inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="promo-banner__text rte">
+            {{ section.settings.text }}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+          <a
+            href="{{ section.settings.button_link }}"
+            class="button{% if section.settings.button_style_secondary %} button--secondary{% endif %}"
+          >
+            {{ section.settings.button_label | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.enable_countdown -%}
+        <div class="promo-banner__timer" data-countdown-root>
+          {%- if section.settings.countdown_label != blank -%}
+            <p class="promo-banner__timer-title">{{ section.settings.countdown_label | escape }}</p>
+          {%- endif -%}
+          <div
+            class="promo-banner__countdown"
+            data-countdown
+            data-end-date="{{ section.settings.countdown_end | escape }}"
+            role="timer"
+            aria-live="polite"
+          >
+            <div class="promo-banner__countdown-item">
+              <span class="promo-banner__countdown-value" data-countdown-value="days">00</span>
+              <span class="promo-banner__countdown-label">Days</span>
+            </div>
+            <div class="promo-banner__countdown-item">
+              <span class="promo-banner__countdown-value" data-countdown-value="hours">00</span>
+              <span class="promo-banner__countdown-label">Hours</span>
+            </div>
+            <div class="promo-banner__countdown-item">
+              <span class="promo-banner__countdown-value" data-countdown-value="minutes">00</span>
+              <span class="promo-banner__countdown-label">Minutes</span>
+            </div>
+            <div class="promo-banner__countdown-item">
+              <span class="promo-banner__countdown-value" data-countdown-value="seconds">00</span>
+              <span class="promo-banner__countdown-label">Seconds</span>
+            </div>
+          </div>
+          <p class="promo-banner__countdown-expired" data-countdown-expired hidden>
+            {{ section.settings.countdown_expired_label | escape }}
+          </p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const sectionElement = document.getElementById('PromoBanner-{{ section.id }}');
+    if (!sectionElement) return;
+
+    const countdownRoot = sectionElement.querySelector('[data-countdown-root]');
+    const countdownElement = sectionElement.querySelector('[data-countdown]');
+    if (!countdownRoot || !countdownElement) return;
+
+    const endTimestamp = Date.parse(countdownElement.dataset.endDate);
+    if (Number.isNaN(endTimestamp)) {
+      countdownRoot.hidden = true;
+      return;
+    }
+
+    const countdownValues = {
+      days: countdownElement.querySelector('[data-countdown-value="days"]'),
+      hours: countdownElement.querySelector('[data-countdown-value="hours"]'),
+      minutes: countdownElement.querySelector('[data-countdown-value="minutes"]'),
+      seconds: countdownElement.querySelector('[data-countdown-value="seconds"]')
+    };
+
+    const expiredMessage = sectionElement.querySelector('[data-countdown-expired]');
+    let intervalId = null;
+
+    const toDoubleDigits = (value) => String(value).padStart(2, '0');
+
+    const renderCountdown = () => {
+      const remainingMs = endTimestamp - Date.now();
+
+      if (remainingMs <= 0) {
+        countdownValues.days.textContent = '00';
+        countdownValues.hours.textContent = '00';
+        countdownValues.minutes.textContent = '00';
+        countdownValues.seconds.textContent = '00';
+        if (expiredMessage) expiredMessage.hidden = false;
+        if (intervalId) window.clearInterval(intervalId);
+        return;
+      }
+
+      const totalSeconds = Math.floor(remainingMs / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      countdownValues.days.textContent = toDoubleDigits(days);
+      countdownValues.hours.textContent = toDoubleDigits(hours);
+      countdownValues.minutes.textContent = toDoubleDigits(minutes);
+      countdownValues.seconds.textContent = toDoubleDigits(seconds);
+    };
+
+    renderCountdown();
+    intervalId = window.setInterval(renderCountdown, 1000);
+
+    const unloadHandler = (event) => {
+      if (event.detail && event.detail.sectionId === '{{ section.id }}') {
+        window.clearInterval(intervalId);
+        document.removeEventListener('shopify:section:unload', unloadHandler);
+      }
+    };
+
+    document.addEventListener('shopify:section:unload', unloadHandler);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Promo banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Limited time only sales up by 40%",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Hurry up before the offer ends.</p>",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Shop now",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary",
+      "default": false,
+      "label": "Use secondary button style"
+    },
+    {
+      "type": "header",
+      "content": "Countdown"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_countdown",
+      "default": true,
+      "label": "Show countdown timer"
+    },
+    {
+      "type": "text",
+      "id": "countdown_label",
+      "default": "Ends in",
+      "label": "Timer label"
+    },
+    {
+      "type": "text",
+      "id": "countdown_end",
+      "default": "2026-03-31T23:59:59Z",
+      "label": "Countdown end date/time",
+      "info": "Use ISO format, for example 2026-03-31T23:59:59Z"
+    },
+    {
+      "type": "text",
+      "id": "countdown_expired_label",
+      "default": "This sale has ended.",
+      "label": "Expired timer message"
+    },
+    {
+      "type": "header",
+      "content": "Sticker"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticker",
+      "default": true,
+      "label": "Show sticker"
+    },
+    {
+      "type": "text",
+      "id": "sticker_svg_asset",
+      "default": "promo-sticker.svg",
+      "label": "Sticker SVG asset filename",
+      "info": "Use a file from assets, for example: promo-sticker.svg"
+    },
+    {
+      "type": "image_picker",
+      "id": "sticker_image",
+      "label": "Sticker image fallback"
+    },
+    {
+      "type": "range",
+      "id": "sticker_size",
+      "min": 80,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 420,
+      "label": "Sticker size"
+    },
+    {
+      "type": "range",
+      "id": "sticker_horizontal_position",
+      "min": -20,
+      "max": 120,
+      "step": 2,
+      "unit": "%",
+      "default": 88,
+      "label": "Sticker horizontal position"
+    },
+    {
+      "type": "range",
+      "id": "sticker_vertical_position",
+      "min": -20,
+      "max": 120,
+      "step": 2,
+      "unit": "%",
+      "default": 28,
+      "label": "Sticker vertical position"
+    },
+    {
+      "type": "range",
+      "id": "sticker_rotation",
+      "min": -45,
+      "max": 45,
+      "step": 1,
+      "unit": "deg",
+      "default": -10,
+      "label": "Sticker rotation"
+    },
+    {
+      "type": "range",
+      "id": "sticker_opacity",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 65,
+      "label": "Sticker opacity"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo banner"
+    }
+  ]
+}
+{% endschema %}

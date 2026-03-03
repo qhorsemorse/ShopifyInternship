@@ -77,6 +77,32 @@
         "padding_bottom": 36
       }
     },
+    "promo_banner_between_collections": {
+      "type": "promo-banner",
+      "settings": {
+        "heading": "Limited time only sales up by 40%",
+        "heading_size": "h1",
+        "text": "<p>Hurry up before the offer ends.</p>",
+        "button_label": "Shop now",
+        "button_link": "shopify://collections/all",
+        "button_style_secondary": true,
+        "enable_countdown": true,
+        "countdown_label": "Ends in",
+        "countdown_end": "2026-03-31T23:59:59Z",
+        "countdown_expired_label": "This sale has ended.",
+        "enable_sticker": true,
+        "sticker_svg_asset": "promo-sticker.svg",
+        "sticker_image": "",
+        "sticker_size": 520,
+        "sticker_horizontal_position": 78,
+        "sticker_vertical_position": 46,
+        "sticker_rotation": -10,
+        "sticker_opacity": 100,
+        "color_scheme": "scheme-2",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -109,6 +135,7 @@
   "order": [
     "image_banner",
     "best-sellers",
+    "promo_banner_between_collections",
     "featured_collection"
   ]
 }

@@ -25,6 +25,7 @@
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
 
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-card-product-reveal-button.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
@@ -105,6 +106,7 @@
               {%- endif -%}
             </div>
           </div>
+          {% render 'card-product-reveal-button', card_product: card_product %}
         {%- endif -%}
         <div class="card__content">
           <div class="card__information">

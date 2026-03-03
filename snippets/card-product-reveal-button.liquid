@@ -1,0 +1,49 @@
+{% comment %}
+  Product card reveal button.
+  Mobile: direct link to product.
+  Desktop: toggle expands left to show link text.
+
+  Accepts:
+  - card_product: {Object} Product Liquid object
+{% endcomment %}
+{%- if settings.card_reveal_button_enabled and card_product and card_product != blank -%}
+  {%- assign reveal_text = settings.card_reveal_button_text | strip | default: 'show now' -%}
+  <div
+    class="card-product-reveal"
+    style="
+      --card-product-reveal-size: {{ settings.card_reveal_button_size }}px;
+      --card-product-reveal-bg: {{ settings.card_reveal_button_bg_color }};
+      --card-product-reveal-fg: {{ settings.card_reveal_button_text_color }};
+    "
+  >
+    <a
+      class="card-product-reveal__control card-product-reveal__mobile"
+      href="{{ card_product.url }}"
+      aria-label="{{ reveal_text | escape }}"
+      title="{{ reveal_text | escape }}"
+    >
+      <span class="card-product-reveal__dots-box" aria-hidden="true">
+        <span class="card-product-reveal__dot"></span>
+        <span class="card-product-reveal__dot"></span>
+        <span class="card-product-reveal__dot"></span>
+      </span>
+    </a>
+
+    <details class="card-product-reveal__desktop">
+      <summary
+        class="card-product-reveal__control"
+        aria-label="{{ reveal_text | escape }}"
+        title="{{ reveal_text | escape }}"
+      >
+        <span class="card-product-reveal__dots-box" aria-hidden="true">
+          <span class="card-product-reveal__dot"></span>
+          <span class="card-product-reveal__dot"></span>
+          <span class="card-product-reveal__dot"></span>
+        </span>
+      </summary>
+      <a class="card-product-reveal__link" href="{{ card_product.url }}">
+        <span class="badge">{{ reveal_text | escape }}</span>
+      </a>
+    </details>
+  </div>
+{%- endif -%}

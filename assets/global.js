@@ -37,6 +37,93 @@ document.addEventListener('click', (event) => {
   });
 }, true);
 
+// CODE CHANGE START: Product card reveal button interaction guard
+document.addEventListener(
+  'click',
+  (event) => {
+    const revealSummary = event.target.closest('.card-product-reveal__desktop summary.card-product-reveal__control');
+    if (revealSummary) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+      const revealDetails = revealSummary.parentElement;
+      if (revealDetails) {
+        const willOpen = !revealDetails.hasAttribute('open');
+        if (willOpen) {
+          revealDetails.setAttribute('open', '');
+        } else {
+          revealDetails.removeAttribute('open');
+        }
+        revealSummary.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      }
+      return;
+    }
+
+    const revealCard = event.target.closest('.product-card-wrapper');
+    if (revealCard) {
+      const revealDetails = revealCard.querySelector('.card-product-reveal__desktop');
+      const revealControl = revealDetails?.querySelector('summary.card-product-reveal__control');
+      if (revealDetails && revealControl && revealDetails.offsetParent !== null) {
+        const rect = revealControl.getBoundingClientRect();
+        const clickedControlArea =
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom;
+
+        if (clickedControlArea) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+          const willOpen = !revealDetails.hasAttribute('open');
+          if (willOpen) {
+            revealDetails.setAttribute('open', '');
+          } else {
+            revealDetails.removeAttribute('open');
+          }
+          revealControl.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+          return;
+        }
+      }
+
+      const revealLinkFallback = revealDetails?.querySelector('a.card-product-reveal__link');
+      if (revealDetails && revealLinkFallback && revealDetails.hasAttribute('open')) {
+        const linkRect = revealLinkFallback.getBoundingClientRect();
+        const clickedLinkArea =
+          event.clientX >= linkRect.left &&
+          event.clientX <= linkRect.right &&
+          event.clientY >= linkRect.top &&
+          event.clientY <= linkRect.bottom;
+
+        if (clickedLinkArea) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+          window.location.assign(revealLinkFallback.href);
+          return;
+        }
+      }
+    }
+
+    const revealLink = event.target.closest('.card-product-reveal__link');
+    if (revealLink) {
+      event.stopPropagation();
+      if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+      return;
+    }
+
+    const revealTarget = event.target.closest('.card-product-reveal__mobile');
+    if (!revealTarget) return;
+
+    event.stopPropagation();
+    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+  },
+  true
+);
+// CODE CHANGE END: Product card reveal button interaction guard
+
 document.addEventListener('mouseover', (event) => {
   const swatchButton = event.target.closest('.card__swatch');
   if (!swatchButton) return;
