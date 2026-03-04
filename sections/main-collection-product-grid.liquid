@@ -153,16 +153,63 @@
               "
             >
               {% assign skip_card_product_styles = false %}
+              {% liquid
+                assign promo_card_enabled = false
+                assign promo_card_inserted = false
+                assign promo_card_position = section.settings.promo_card_position | plus: 0
+                assign promo_target_handle = section.settings.promo_collection_handle | strip | handleize
+                assign animation_order = 0
+
+                if section.settings.enable_promo_card
+                  assign promo_card_enabled = true
+                endif
+
+                if section.settings.promo_card_first_page_only and paginate.current_page != 1
+                  assign promo_card_enabled = false
+                endif
+
+                if promo_target_handle != blank
+                  assign collection_title_handle = collection.title | handleize
+                  if collection.handle != promo_target_handle and collection_title_handle != promo_target_handle
+                    assign promo_card_enabled = false
+                  endif
+                endif
+
+                if promo_card_position < 1
+                  assign promo_card_position = 1
+                endif
+              %}
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
                 {%- endif -%}
+                {%- if promo_card_enabled and promo_card_inserted == false and forloop.index == promo_card_position -%}
+                  {% assign animation_order = animation_order | plus: 1 %}
+                  <li
+                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ animation_order }};"
+                    {% endif %}
+                  >
+                    {% render 'card-promo',
+                      promo_image: section.settings.promo_card_image,
+                      promo_link: section.settings.promo_card_link,
+                      promo_alt: section.settings.promo_card_alt,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      lazy_load: false
+                    %}
+                  </li>
+                  {%- assign promo_card_inserted = true -%}
+                {%- endif -%}
+                {% assign animation_order = animation_order | plus: 1 %}
                 <li
                   class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                   {% if settings.animations_reveal_on_scroll %}
                     data-cascade
-                    style="--animation-order: {{ forloop.index }};"
+                    style="--animation-order: {{ animation_order }};"
                   {% endif %}
                 >
                   {% render 'card-product',
@@ -180,6 +227,25 @@
                 </li>
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
+              {%- if promo_card_enabled and promo_card_inserted == false -%}
+                {% assign animation_order = animation_order | plus: 1 %}
+                <li
+                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {% if settings.animations_reveal_on_scroll %}
+                    data-cascade
+                    style="--animation-order: {{ animation_order }};"
+                  {% endif %}
+                >
+                  {% render 'card-promo',
+                    promo_image: section.settings.promo_card_image,
+                    promo_link: section.settings.promo_card_link,
+                    promo_alt: section.settings.promo_card_alt,
+                    media_aspect_ratio: section.settings.image_ratio,
+                    image_shape: section.settings.image_shape,
+                    lazy_load: true
+                  %}
+                </li>
+              {%- endif -%}
             </ul>
 
             {%- if paginate.pages > 1 -%}
@@ -343,6 +409,53 @@
           "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
         }
       ]
+    },
+    {
+      "type": "header",
+      "content": "Promo card"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_promo_card",
+      "default": false,
+      "label": "Enable promo card in product grid"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_card_image",
+      "label": "Promo card image"
+    },
+    {
+      "type": "url",
+      "id": "promo_card_link",
+      "label": "Promo card link"
+    },
+    {
+      "type": "text",
+      "id": "promo_card_alt",
+      "default": "Promotional card",
+      "label": "Promo image alt text"
+    },
+    {
+      "type": "range",
+      "id": "promo_card_position",
+      "min": 1,
+      "max": 36,
+      "step": 1,
+      "default": 4,
+      "label": "Promo card position"
+    },
+    {
+      "type": "text",
+      "id": "promo_collection_handle",
+      "default": "chairs",
+      "label": "Only show on collection handle"
+    },
+    {
+      "type": "checkbox",
+      "id": "promo_card_first_page_only",
+      "default": true,
+      "label": "Show promo card only on first page"
     },
     {
       "type": "header",

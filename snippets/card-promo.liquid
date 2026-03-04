@@ -1,0 +1,92 @@
+{% comment %}
+  Renders a promo card in the collection product grid.
+
+  Accepts:
+  - promo_image: {Object} Image object
+  - promo_link: {String} Optional URL
+  - promo_alt: {String} Optional alt text
+  - media_aspect_ratio: {String} "adapt", "portrait", or "square"
+  - image_shape: {String} Card shape
+  - lazy_load: {Boolean} Image loading behavior
+{% endcomment %}
+{%- liquid
+  assign ratio = 1
+  if promo_image and media_aspect_ratio == 'portrait'
+    assign ratio = 0.8
+  elsif promo_image and media_aspect_ratio == 'adapt'
+    assign ratio = promo_image.aspect_ratio
+  endif
+  if ratio == 0 or ratio == null
+    assign ratio = 1
+  endif
+
+  assign loading_mode = 'lazy'
+  if lazy_load == false
+    assign loading_mode = 'eager'
+  endif
+
+  assign image_alt = promo_alt | default: promo_image.alt | default: 'Promotional card'
+  assign promo_destination = promo_link
+  if promo_destination == blank
+    assign promo_destination = routes.root_url
+  endif
+-%}
+
+{%- style -%}
+  .card-promo .card__media {
+    overflow: hidden;
+  }
+
+  .card-promo__link {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-promo__image {
+    transition: transform 0.2s ease;
+    transform-origin: center center;
+  }
+
+  .card-promo:hover .card-promo__image {
+    transform: scale(1.04);
+  }
+{%- endstyle -%}
+
+<div class="card-wrapper product-card-wrapper underline-links-hover card-promo">
+  <div
+    class="
+      card card--{{ settings.card_style }} card--media
+      {% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }} gradient{% endif %}
+      {% if image_shape and image_shape != 'default' %} card--shape{% endif %}
+      card--extend-height
+    "
+    style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+  >
+    <div
+      class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %} ratio"
+      style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+    >
+      <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
+        <div class="media media--transparent media--hover-effect">
+          <a href="{{ promo_destination }}" class="full-unstyled-link card-promo__link" aria-label="{{ image_alt | escape }}">
+          {%- if promo_image != blank -%}
+            {{
+              promo_image
+              | image_url: width: 1066
+              | image_tag:
+                widths: '165, 360, 533, 720, 940, 1066',
+                sizes: '(min-width: 1600px) 350px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)',
+                class: 'motion-reduce card-promo__image',
+                loading: loading_mode,
+                alt: image_alt
+            }}
+          {%- else -%}
+            {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
