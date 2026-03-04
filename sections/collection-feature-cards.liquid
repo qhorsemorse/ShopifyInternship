@@ -1,0 +1,433 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .collection-feature-cards__heading {
+    margin: 0 0 2.4rem;
+  }
+
+  .collection-feature-cards__card {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+    border-radius: 1.2rem;
+    overflow: hidden;
+    background: rgb(var(--color-background));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .collection-feature-cards__card:hover {
+    transform: translateY(-0.2rem);
+    box-shadow: 0 0.8rem 2rem rgba(var(--color-foreground), 0.12);
+  }
+
+  .collection-feature-cards__media {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: rgba(var(--color-foreground), 0.05);
+  }
+
+  .collection-feature-cards__media--square {
+    padding-bottom: 100%;
+  }
+
+  .collection-feature-cards__media--portrait {
+    padding-bottom: 125%;
+  }
+
+  .collection-feature-cards__media--adapt {
+    aspect-ratio: 4 / 3;
+  }
+
+  .collection-feature-cards__image,
+  .collection-feature-cards__media .placeholder-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .collection-feature-cards__content {
+    padding: 1.6rem;
+  }
+
+  .collection-feature-cards__title {
+    margin: 0;
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign metafield_namespace = section.settings.metafield_namespace | strip
+  assign metafield_key = section.settings.metafield_key | strip
+  assign cards_metafield = blank
+
+  if metafield_namespace != blank and metafield_key != blank
+    assign cards_metafield = collection.metafields[metafield_namespace][metafield_key]
+  endif
+
+  if cards_metafield == blank
+    assign cards_metafield = collection.metafields.custom.collection_feature_cards
+  endif
+
+  if cards_metafield == blank
+    assign cards_metafield = collection.metafields.custom.collection_feature_card
+  endif
+
+  assign metaobject_cards = blank
+  if cards_metafield != blank
+    assign metaobject_cards = cards_metafield.value
+  endif
+
+  if metaobject_cards == blank and section.settings.metaobject_definition_type != blank
+    assign metaobject_cards = shop.metaobjects[section.settings.metaobject_definition_type].values
+  endif
+
+  assign has_metaobject_cards = false
+  if metaobject_cards != blank
+    assign has_metaobject_cards = true
+  endif
+-%}
+
+<div class="collection-feature-cards color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="collection-feature-cards__heading inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    <ul
+      class="
+        grid
+        grid--{{ section.settings.columns_mobile }}-col-tablet-down
+        grid--{{ section.settings.columns_desktop }}-col-desktop
+      "
+      role="list"
+    >
+      {%- if has_metaobject_cards -%}
+        {%- for card in metaobject_cards -%}
+          {%- liquid
+            assign card_collection_field = card[section.settings.metaobject_collection_field]
+            assign card_image_field = card[section.settings.metaobject_image_field]
+            assign card_text_field = card[section.settings.metaobject_text_field]
+            assign card_link_field = card[section.settings.metaobject_link_field]
+
+            assign card_collection = card_collection_field.value | default: card_collection_field
+            assign card_image = card_image_field.value | default: card_image_field
+            assign card_text = card_text_field.value | default: card_text_field
+            assign card_link = card_link_field.value | default: card_link_field
+
+            if card_image == blank and card_collection != blank
+              assign card_image = card_collection.featured_image
+            endif
+
+            if card_text == blank and card_collection != blank
+              assign card_text = card_collection.title
+            endif
+
+            if card_link == blank and card_collection != blank
+              assign card_link = card_collection.url
+            endif
+
+            if card_text == blank
+              assign card_text = card.system.handle
+            endif
+          -%}
+          <li class="grid__item">
+            {%- if card_link != blank -%}
+              <a class="collection-feature-cards__card" href="{{ card_link }}">
+            {%- else -%}
+              <div class="collection-feature-cards__card">
+            {%- endif -%}
+
+            <div class="collection-feature-cards__media collection-feature-cards__media--{{ section.settings.image_ratio }}">
+              {%- if card_image != blank -%}
+                {{
+                  card_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    widths: '320, 480, 640, 800, 1000, 1200',
+                    sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                    loading: 'lazy',
+                    class: 'collection-feature-cards__image'
+                }}
+              {%- else -%}
+                {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+
+            <div class="collection-feature-cards__content">
+              <h3 class="collection-feature-cards__title h4">{{ card_text }}</h3>
+            </div>
+
+            {%- if card_link != blank -%}
+              </a>
+            {%- else -%}
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <li class="grid__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a class="collection-feature-cards__card" href="{{ block.settings.link }}">
+            {%- else -%}
+              <div class="collection-feature-cards__card">
+            {%- endif -%}
+
+            <div class="collection-feature-cards__media collection-feature-cards__media--{{ section.settings.image_ratio }}">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 1200
+                  | image_tag:
+                    widths: '320, 480, 640, 800, 1000, 1200',
+                    sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                    loading: 'lazy',
+                    class: 'collection-feature-cards__image'
+                }}
+              {%- else -%}
+                {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+
+            <div class="collection-feature-cards__content">
+              <h3 class="collection-feature-cards__title h4">{{ block.settings.title }}</h3>
+            </div>
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- else -%}
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection feature cards",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Shop by type",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "header",
+      "content": "Metaobject source"
+    },
+    {
+      "type": "text",
+      "id": "metafield_namespace",
+      "default": "custom",
+      "label": "Collection metafield namespace"
+    },
+    {
+      "type": "text",
+      "id": "metafield_key",
+      "default": "collection_feature_cards",
+      "label": "Collection metafield key"
+    },
+    {
+      "type": "text",
+      "id": "metaobject_definition_type",
+      "default": "collection_feature_card",
+      "label": "Metaobject definition type"
+    },
+    {
+      "type": "text",
+      "id": "metaobject_image_field",
+      "default": "image",
+      "label": "Metaobject image field key"
+    },
+    {
+      "type": "text",
+      "id": "metaobject_collection_field",
+      "default": "collection",
+      "label": "Metaobject collection field key"
+    },
+    {
+      "type": "text",
+      "id": "metaobject_text_field",
+      "default": "text",
+      "label": "Metaobject text field key"
+    },
+    {
+      "type": "text",
+      "id": "metaobject_link_field",
+      "default": "link",
+      "label": "Metaobject link field key"
+    },
+    {
+      "type": "header",
+      "content": "Card layout"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "adapt",
+          "label": "Adapt"
+        }
+      ],
+      "default": "square",
+      "label": "Image ratio"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Desktop columns"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 column"
+        },
+        {
+          "value": "2",
+          "label": "2 columns"
+        }
+      ],
+      "default": "1",
+      "label": "Mobile columns"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Furniture type",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection feature cards",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "title": "Sofas"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Chairs"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Tables"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
