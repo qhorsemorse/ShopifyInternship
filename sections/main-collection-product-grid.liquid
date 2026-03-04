@@ -37,7 +37,35 @@
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
-  {%- paginate collection.products by section.settings.products_per_page -%}
+  {%- liquid
+    assign promo_target_handle = section.settings.promo_collection_handle | strip | handleize
+    assign promo_card_counts_in_grid = false
+
+    if section.settings.enable_promo_card
+      assign promo_card_counts_in_grid = true
+    endif
+
+    if section.settings.promo_card_first_page_only and current_page != 1
+      assign promo_card_counts_in_grid = false
+    endif
+
+    if promo_target_handle != blank
+      assign collection_title_handle = collection.title | handleize
+      if collection.handle != promo_target_handle and collection_title_handle != promo_target_handle
+        assign promo_card_counts_in_grid = false
+      endif
+    endif
+
+    assign products_per_page_with_promo = section.settings.products_per_page | plus: 0
+    if promo_card_counts_in_grid
+      assign products_per_page_with_promo = products_per_page_with_promo | minus: 1
+    endif
+    if products_per_page_with_promo < 1
+      assign products_per_page_with_promo = 1
+    endif
+  -%}
+
+  {%- paginate collection.products by products_per_page_with_promo -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
       <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
@@ -154,26 +182,10 @@
             >
               {% assign skip_card_product_styles = false %}
               {% liquid
-                assign promo_card_enabled = false
+                assign promo_card_enabled = promo_card_counts_in_grid
                 assign promo_card_inserted = false
                 assign promo_card_position = section.settings.promo_card_position | plus: 0
-                assign promo_target_handle = section.settings.promo_collection_handle | strip | handleize
                 assign animation_order = 0
-
-                if section.settings.enable_promo_card
-                  assign promo_card_enabled = true
-                endif
-
-                if section.settings.promo_card_first_page_only and paginate.current_page != 1
-                  assign promo_card_enabled = false
-                endif
-
-                if promo_target_handle != blank
-                  assign collection_title_handle = collection.title | handleize
-                  if collection.handle != promo_target_handle and collection_title_handle != promo_target_handle
-                    assign promo_card_enabled = false
-                  endif
-                endif
 
                 if promo_card_position < 1
                   assign promo_card_position = 1

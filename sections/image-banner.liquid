@@ -29,6 +29,47 @@
   }
 {%- endstyle -%}
 
+{%- if request.page_type == 'collection' and section.settings.image_height == 'medium' and section.settings.show_text_box -%}
+  {%- style -%}
+    #Banner-{{ section.id }} .banner__content {
+      position: relative;
+      z-index: 2;
+      justify-content: flex-start;
+    }
+
+    #Banner-{{ section.id }} .banner__box {
+      background-color: rgba(11, 42, 99, 0.5) !important;
+      border-radius: 1.2rem;
+      margin-left: 2.4rem;
+      max-width: 36rem;
+      min-width: 0;
+      padding: 2.2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    #Banner-{{ section.id }} .banner__buttons {
+      justify-content: center;
+    }
+
+    @media screen and (max-width: 749px) {
+      #Banner-{{ section.id }} .banner__content {
+        justify-content: center;
+      }
+
+      #Banner-{{ section.id }} .banner__box {
+        margin-left: 1.2rem;
+        max-width: calc(100% - 2.4rem);
+      }
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
 {%- liquid
   assign full_width = '100vw'
   assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'

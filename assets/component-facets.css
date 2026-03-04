@@ -1255,3 +1255,76 @@ input.mobile-facets__checkbox {
     padding: 0 1rem 1rem;
   }
 }
+
+/* Custom collection filters styling */
+.facets-container .facets__heading,
+.facets-container .facets__summary,
+.facets-container .facet-filters__label,
+.facets-container .facet-filters__sort,
+.facets-container .facets__reset,
+.facets-container .facets__selected,
+.facets-container .facet-checkbox__text-label,
+.facets-container .facets__and-helptext {
+  color: #2f6eb6;
+}
+
+.facets-container .facets__disclosure[open] .facets__summary,
+.facets-container .facets__summary:hover {
+  color: #2f6eb6;
+}
+
+.facets-container .active-facets__button-remove {
+  color: #2f6eb6;
+}
+
+.facets-container span.active-facets__button-inner {
+  background-color: #c8a76e;
+  color: #5d3d18;
+  box-shadow: 0 0 0 0.1rem #8a6636;
+}
+
+.facets-container .active-facets__button:hover .active-facets__button-inner,
+.facets-container .active-facets__button--light:hover .active-facets__button-inner {
+  box-shadow: 0 0 0 0.2rem #8a6636;
+}
+
+.mobile-facets__open,
+.mobile-facets__open:hover,
+.mobile-facets__heading,
+.mobile-facets__count,
+.mobile-facets__summary,
+.mobile-facets__info,
+.mobile-facets__sort label,
+.mobile-facets__label,
+.mobile-facets__label .facet-checkbox__text,
+.mobile-facets__label .facet-checkbox__text-label,
+.mobile-facets__close-button {
+  color: #2f6eb6;
+}
+
+.mobile-facets__open line,
+.mobile-facets__open circle,
+.mobile-facets__open:hover line,
+.mobile-facets__open:hover circle {
+  stroke: #2f6eb6;
+}
+
+.mobile-facets__clear,
+.mobile-facets__clear:visited {
+  color: #c12c2c;
+}
+
+.mobile-facets__clear:hover {
+  color: #9f1f1f;
+}
+
+.mobile-facets__footer .button.button--primary {
+  background-color: #2f6eb6;
+  border-color: #2f6eb6;
+  color: #ffffff;
+}
+
+.mobile-facets__footer .button.button--primary:hover {
+  background-color: #245891;
+  border-color: #245891;
+}
