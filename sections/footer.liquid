@@ -4,6 +4,7 @@
 {{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{{ 'wishlist.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .footer {
@@ -319,6 +320,8 @@
       </div>
     </div>
   </div>
+  {% render 'wishlist-modal' %}
+  <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
 </footer>
 
 {% schema %}

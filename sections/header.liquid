@@ -252,7 +252,7 @@
       {%- if shop.customer_accounts_enabled -%}
         <a
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-          class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
+          class="header__icon header__icon--account link focus-inset"
           rel="nofollow"
         >
           {%- if section.settings.enable_customer_avatar -%}
@@ -284,6 +284,17 @@
             {% render block %}
         {%- endcase -%}
       {%- endfor -%}
+
+      <button
+        type="button"
+        class="header__icon header__icon--wishlist link focus-inset"
+        data-wishlist-open
+        aria-haspopup="dialog"
+        aria-controls="WishlistModal"
+        aria-label="Open wishlist"
+      >
+        <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+      </button>
 
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {% if cart == empty %}

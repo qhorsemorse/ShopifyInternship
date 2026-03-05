@@ -104,6 +104,21 @@
                       {{ product.title | escape }}
                     </h2>
                   </a>
+                  <button
+                    type="button"
+                    class="wishlist-product-toggle"
+                    data-wishlist-toggle
+                    data-product-handle="{{ product.handle }}"
+                    data-product-title="{{ product.title | escape }}"
+                    data-label-add="Add to wishlist"
+                    data-label-remove="Remove from wishlist"
+                    aria-pressed="false"
+                    aria-label="Add to wishlist: {{ product.title | escape }}"
+                  >
+                    <span class="svg-wrapper">
+                      {{- 'icon-heart.svg' | inline_asset_content -}}
+                    </span>
+                  </button>
                 </div>
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
